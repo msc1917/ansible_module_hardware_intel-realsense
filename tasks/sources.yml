@@ -1,0 +1,23 @@
+---
+---
+- name: Create directories for Development-User
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ default_user.dev.user }}"
+    group: "{{ default_user.dev.group }}"
+    mode: '0775'
+  become: yes
+  with_items:
+   - '/home/{{ default_user.dev.user }}/script'
+   - '/home/{{ default_user.dev.user }}/script/git'
+
+- name: Get Sources
+  git:
+    repo: "{{ item }}"
+    dest: "/home/{{ default_user.dev.user }}/script/git/"
+    update: yes
+  become_user: "{{ default_user.dev.user }}"
+  ignore_errors: yes
+  with_items:
+    - "https://github.com/IntelRealSense/librealsense.git"

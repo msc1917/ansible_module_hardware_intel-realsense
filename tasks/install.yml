@@ -3,5 +3,6 @@
   apt:
     name: [ "build-essential", "cmake", "make", "git", "pkg-config", "libusb-1.0-0", "libusb-1.0-0-dev", "libglfw3-dev", "libgl1-mesa-dev", "libglu1-mesa-dev", "xorg-dev", "libgtk-3-dev", "qtbase5-dev", "python2.7-dev", "python3-dev" ]
     state: present
-    update_cache: no
+    update_cache:     "{{ apt_proxy.update_repo | default(no) }}"
+    cache_valid_time: "{{ apt_proxy.update_cache | default(0) }}"
   become: yes
